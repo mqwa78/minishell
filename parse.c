@@ -90,6 +90,8 @@ int	ft_check_spe(char *s, char c, int i)
 	return (0);
 }
 
+// pas utile, a faire plus tard apres tokens
+
 int	ft_check_syntax(char *s)
 {	
 	int	i;
@@ -110,24 +112,22 @@ int	ft_check_syntax(char *s)
 	return (0);
 }
 
-int	ft_parse(char *str)
+// free data->line si error
+//add tokeniser ? et ensuite check tok syntax puis continu si pb
+//Si fail tokeniser, free all, env compris car malloc fail 
+
+int	ft_parse(t_data *data)
 {	
-	if (ft_open_quotes(str))
-		return (ft_print_parse(1));
-	if (ft_invalid_char(str))
-		return (ft_print_parse(2));
-	if (ft_check_syntax(str))
-		return (ft_print_parse(0));
+	if (data->line[0] == '\0')
+		return (0);
+	if (ft_open_quotes(data->line))
+		return (ft_print_parse(data, 1));
+	if (ft_invalid_char(data->line))
+		return (ft_print_parse(data, 2));
+	if (tokeniser(data, data->line))
+		return (0);
+	//if(expander)
+	//if (ft_check_syntax(data->line))  a mettre dans tokeniser
+		//return (ft_print_parse(data, 0));
 	return (1);
 }
-
-/*int	main(void)
-{	
-	char	*str;
-
-	//str = "\"bonjo \'ur \"  \' \"\" ";
-	str = "echo bonjour \"*\" | ls -la | echo yo >> >file";
-	printf("%s\n", str);
-	printf("%d\n", ft_parse(str));
-	return (0);
-}*/

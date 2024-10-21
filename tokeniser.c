@@ -88,7 +88,10 @@ int	ft_add_special(t_tok **tok, char *s, int *i)
 	return (1);
 }
 
-int	tokeniser(char *s)
+// si error de malloc, free env + line + tokens et exit ici
+//si check_synax pb, on affiche error token, on free token + line et on itere
+
+int	tokeniser(t_data *data, char *s)
 {
 	t_tok	*token;
 	t_tok	*cur;
@@ -101,40 +104,15 @@ int	tokeniser(char *s)
 		while (ft_isspace(s[i]))
 			i++;
 		if (s[i] && !is_special(s, s[i], i) && !ft_add_token(&token, s, &i))
-		{	
-			ft_clear_tok(&token);
-			return (1);
-		}
+			return (ft_clear_tok(&token));
 		if (s[i] && is_special(s, s[i], i) && !ft_add_special(&token, s, &i))
-		{
-			ft_clear_tok(&token);
-			return (1);
-		}
+			return (ft_clear_tok(&token));
 	}
-	cur = token;
-	while (token->next)
-	{
-		printf("%s\n", token->token);
-		printf("%d\n", token->type);
-		token = token->next;
-	}
-	printf("%s\n", token->token);
-	printf("%d\n", token->type);
-	while (token)
-	{
-		printf("%s\n", token->token);
-		token = token->prev;
-	}
-	ft_clear_tok(&cur);
-	return (0);
-}
-
-int	main(void)
-{	
-	char	*str;
-	int		i;
-
-	str = "echo bonjour >> file.txt | cat << file.txt |";
-	i = tokeniser(str);
+	data->tok = token;
+	//free(data->line);
+	//!ft_check_synthax_token
+	//ft_clear_tok(&data->tok);
+	//return (1):
+	//ft_setup_token_types
 	return (0);
 }

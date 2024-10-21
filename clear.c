@@ -12,12 +12,14 @@ void	ft_clear_env(t_env **lst)
 	*lst = NULL;
 }
 
-void	ft_clear_tok(t_tok **lst)
+int	ft_clear_tok(t_tok **lst)
 {
 	if (!lst || !(*lst))
-		return ;
+		return (1);
 	ft_clear_tok(&(*lst)->next);
-	free((*lst)->token);
+	if ((*lst)->token)
+		free((*lst)->token);
 	free(*lst);
 	*lst = NULL;
+	return (1);
 }

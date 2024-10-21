@@ -13,8 +13,9 @@
 # define TRUNC		3	// ">"
 # define APPEND		4	// ">>"
 # define PIPE		5	// "|"
-# define CMD		6	// "Command"
-# define ARG		7	// "Argument"
+# define FILE		6	// "File"
+# define CMD		7	// "Command"
+# define ARG		8	// "Argument"
 
 typedef struct s_env
 {
@@ -31,10 +32,20 @@ typedef struct s_tok
 	struct s_tok	*next;
 }				t_tok;
 
+typedef struct s_cmd
+{	
+	int				in;
+	int				out;
+	char			**cmd;
+	struct s_cmd	*next;
+}				t_cmd;
 typedef struct s_data
 {
 	t_env	*env;
 	t_tok	*tok;
+	t_cmd	*cmd;
+	char	*line;
+	int		dollar;
 }				t_data;
 
 //		INITIALISATION DATA ET ENV		//
@@ -47,18 +58,18 @@ char	*ft_cpy_value(char *str);
 
 //		PARSE							//
 
-int		ft_parse(char *str);
+int		ft_parse(t_data *data);
 int		ft_open_quotes(char *s);
 void	ft_quote(char c, int *dq, int *sq);
 int		ft_invalid_char(char *s);
 int		ft_check_spe(char *s, char c, int i);
 int		ft_check_syntax(char *s);
 int		ft_print_error_syn(char c);
-int		ft_print_parse(int flag);
+int		ft_print_parse(t_data *data, int flag);
 
 //		TOKENISER						//
 
-int		tokeniser(char *s);
+int		tokeniser(t_data *data, char *s);
 int		ft_add_token(t_tok **tok, char *s, int *i);
 int		ft_count_len(char *s, int i);
 int		ft_create_token(t_tok **begin, char *str, int type);
@@ -67,6 +78,10 @@ int		ft_new_token(t_tok **begin, char *str, int type);
 int		is_special(char *s, char c, int i);
 int		ft_add_special(t_tok **tok, char *s, int *i);
 int		ft_create_spe(t_tok **begin, char *str, int type);
+
+//		EXPANDER						//
+
+
 
 //		MANIPULATION LIST				//
 
@@ -86,7 +101,7 @@ int		ft_check_n(char *str);
 //		CLEAR FREE						//
 
 void	ft_clear_env(t_env **lst);
-void	ft_clear_tok(t_tok **lst);
+int		ft_clear_tok(t_tok **lst);
 
 //		LIBFT							//
 
@@ -96,4 +111,10 @@ void	ft_putendl_fd(char *s, int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
 int		ft_isspace(int c);
+int		ft_isdigit(int c);
+int		ft_isalpha(int c);
+int		ft_isalnum(int c);
+
+//		DEBUG							//
+void	ft_print_lst(t_tok *tok);
 #endif
