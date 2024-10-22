@@ -94,7 +94,7 @@ int	ft_add_special(t_tok **tok, char *s, int *i)
 int	tokeniser(t_data *data, char *s)
 {
 	t_tok	*token;
-	t_tok	*cur;
+	//t_tok	*cur;
 	int		i;
 
 	token = NULL;
@@ -104,12 +104,12 @@ int	tokeniser(t_data *data, char *s)
 		while (ft_isspace(s[i]))
 			i++;
 		if (s[i] && !is_special(s, s[i], i) && !ft_add_token(&token, s, &i))
-			return (ft_clear_tok(&token));
+			ft_clear_garbage(data, 0);
 		if (s[i] && is_special(s, s[i], i) && !ft_add_special(&token, s, &i))
-			return (ft_clear_tok(&token));
+			ft_clear_garbage(data, 0);
 	}
 	data->tok = token;
-	//free(data->line);
+	free(data->line);
 	//!ft_check_synthax_token
 	//ft_clear_tok(&data->tok);
 	//return (1):

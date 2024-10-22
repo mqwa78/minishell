@@ -29,7 +29,7 @@ void	ft_init_data(t_data *data)
 	data->dollar = 0;
 }
 
-int	main(int ac, char **av, char **env)
+/*int	main(int ac, char **av, char **env)
 {	
 	t_data	data;
 
@@ -44,10 +44,9 @@ int	main(int ac, char **av, char **env)
 		//on va utiliser continu pour relire une line
 		return (0);
 	}
-	printf("%s\n", data.line);
+	//printf("%s\n", data.line);
 	ft_print_lst(data.tok);
 	ft_clear_env(&data.env);
 	ft_clear_tok(&data.tok);
-	free(data.line);
 	return (0);
-}
+}*/

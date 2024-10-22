@@ -81,7 +81,12 @@ int		ft_create_spe(t_tok **begin, char *str, int type);
 
 //		EXPANDER						//
 
-
+void	expander(t_data *data);
+void	ft_expand(t_data *data, t_tok **tok);
+char	*ft_expand_word(t_data *data, char *s, int i);
+char	*ft_get_key(t_data *data, char *s, int i);
+char	*ft_get_value(t_data *data, char *key);
+void	ft_clear_quote(t_data *data, t_tok **tok);
 
 //		MANIPULATION LIST				//
 
@@ -100,16 +105,18 @@ int		ft_check_n(char *str);
 
 //		CLEAR FREE						//
 
+void	ft_clear_garbage(t_data *data, int flag);
 void	ft_clear_env(t_env **lst);
-int		ft_clear_tok(t_tok **lst);
+void	ft_clear_tok(t_tok **lst);
 
 //		LIBFT							//
 
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
-size_t	ft_strlen(const char *s);
+int		ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
+int		ft_strcmp(char *s1, char *s2);
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_isalpha(int c);
@@ -117,4 +124,5 @@ int		ft_isalnum(int c);
 
 //		DEBUG							//
 void	ft_print_lst(t_tok *tok);
+void	ft_print_lst2(t_env *tok);
 #endif

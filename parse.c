@@ -126,7 +126,7 @@ int	ft_parse(t_data *data)
 		return (ft_print_parse(data, 2));
 	if (tokeniser(data, data->line))
 		return (0);
-	//if(expander)
+	//expander(data);
 	//if (ft_check_syntax(data->line))  a mettre dans tokeniser
 		//return (ft_print_parse(data, 0));
 	return (1);
