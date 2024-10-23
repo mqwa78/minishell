@@ -25,8 +25,8 @@ void	ft_init_data(t_data *data)
 {
 	data->env = NULL;
 	data->tok = NULL;
-	data->line = ft_strdup("echo \"$HOME$YO$USER\" >> file.txt | $YO << $USER |");
-	data->dollar = 0;
+	data->line = ft_strdup("echo \"$HOME$ $? $USER\" >> file.txt | $YO << $USER |");
+	data->spe = 0;
 }
 
 int	main(int ac, char **av, char **env)

@@ -12,7 +12,12 @@ void	ft_clear_garbage(t_data *data, int flag)
 }
 
 void	ft_clear_expand(t_data *data, char *key, char *value, int flag)
-{	
+{
+	if (flag == 2)
+	{	
+		free(key);
+		ft_clear_garbage(data, -1);
+	}
 	free(key);
 	free(value);
 	if (flag == 0)

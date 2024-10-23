@@ -1,6 +1,61 @@
 
 #include "minishell.h"
 
+char	*ft_erase_quotes(char *s, int size)
+{
+	char	*new;
+	int		sq;
+	int		dq;
+	int		i;
+
+	sq = 0;
+	dq = 0;
+	new = malloc(sizeof(char) * ft_strlen(s) - size + 1);
+	if (!new)
+		return (NULL);
+	i = -1;
+	size = -1;
+	while (s[++i])
+	{
+		if (!sq || !dq)
+			ft_quote(s[i], &dq, &sq);
+		new[++size] = s[i];
+	}
+	new[++size] = '\0';
+	free(s);
+	return (new);
+}
+
+int	ft_count_quotes(char *s)
+{
+	int	sq;
+	int	dq;
+	int	i;
+	int	count;
+
+	sq = 0;
+	dq = 0;
+	count = 0;
+	i = -1;
+	if (!s)
+		return (count);
+	while (s[++i])
+	{
+		ft_quote(s[i], &dq, &sq);
+		if (s[i] == '\"' && dq && !sq)
+			count++;
+		else if (s[i] == '\'' && sq && !dq)
+			count++;
+	}
+	return (count * 2);
+}
+
+char	*ft_free_and_return(char *new, char *old)
+{
+	free(old);
+	return (new);
+}
+
 char	*ft_get_key(t_data *data, char *s, int i)
 {	
 	char	*key;
@@ -52,45 +107,3 @@ char	*ft_get_value(t_data *data, char *key)
 	}
 	return (value);
 }
-
-/*void	ft_print_lst2(t_env *tok)
-{
-	t_env	*cur;
-
-	cur = tok;
-	while (cur->next)
-	{
-		printf("%s\n", cur->key);
-		printf("%s\n", cur->value);
-		cur = cur->next;
-	}
-	printf("%s\n", cur->key);
-	printf("%s\n", cur->value);
-}
-
-int	main(int ac, char **av, char **env)
-{	
-	t_data	data;
-	char	*s;
-	char	*res;
-	char	*val;
-	int		i;
-
-	(void)ac;
-	(void)av;
-	s = "Bon$HOME yo$yo";
-	i = 4;
-	ft_init_data(&data);
-	if (!ft_setup_env(&data, env))
-		return (0);
-	res = ft_get_key(&data, s, i);
-	printf("%s\n", res);
-	val = ft_get_value(&data, res);
-	printf("%s\n", val);
-	free(res);
-	free(val);
-	//ft_print_lst2(data.env);
-	ft_clear_env(&data.env);
-	free(data.line);
-	return (0);
-}*/

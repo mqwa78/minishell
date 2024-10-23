@@ -16,6 +16,7 @@
 # define FILE		6	// "File"
 # define CMD		7	// "Command"
 # define ARG		8	// "Argument"
+# define SPE_SIZE	2
 
 typedef struct s_env
 {
@@ -45,7 +46,7 @@ typedef struct s_data
 	t_tok	*tok;
 	t_cmd	*cmd;
 	char	*line;
-	int		dollar;
+	int		spe;
 }				t_data;
 
 //		INITIALISATION DATA ET ENV		//
@@ -86,7 +87,11 @@ void	ft_expand(t_data *data, t_tok **tok);
 char	*ft_expand_word(t_data *data, char *s, int i);
 char	*ft_get_key(t_data *data, char *s, int i);
 char	*ft_get_value(t_data *data, char *key);
+char	*ft_free_and_return(char *new, char *old);
+char	*ft_expand_spe(t_data *data, char *s, int i);
 void	ft_clear_quote(t_data *data, t_tok **tok);
+int		ft_count_quotes(char *s);
+char	*ft_erase_quotes(char *s, int size);
 
 //		MANIPULATION LIST				//
 
@@ -117,6 +122,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 int		ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
+char	*ft_itoa(int n);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
