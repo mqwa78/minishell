@@ -32,7 +32,7 @@ char	*ft_get_value(t_data *data, char *key)
 	cur = data->env;
 	while (cur)
 	{
-		if (strcmp(key, cur->key) == 0)
+		if (ft_strcmp(key, cur->key) == 0)
 		{
 			value = ft_strdup(cur->value);
 			if (!value)
@@ -53,7 +53,7 @@ char	*ft_get_value(t_data *data, char *key)
 	return (value);
 }
 
-void	ft_print_lst2(t_env *tok)
+/*void	ft_print_lst2(t_env *tok)
 {
 	t_env	*cur;
 
@@ -93,4 +93,4 @@ int	main(int ac, char **av, char **env)
 	ft_clear_env(&data.env);
 	free(data.line);
 	return (0);
-}
+}*/

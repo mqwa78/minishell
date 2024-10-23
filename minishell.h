@@ -106,6 +106,7 @@ int		ft_check_n(char *str);
 //		CLEAR FREE						//
 
 void	ft_clear_garbage(t_data *data, int flag);
+void	ft_clear_expand(t_data *data, char *key, char *value, int flag);
 void	ft_clear_env(t_env **lst);
 void	ft_clear_tok(t_tok **lst);
 
