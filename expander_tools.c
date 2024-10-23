@@ -4,24 +4,24 @@
 char	*ft_erase_quotes(char *s, int size)
 {
 	char	*new;
-	int		sq;
-	int		dq;
 	int		i;
+	int		j;
 
-	sq = 0;
-	dq = 0;
 	new = malloc(sizeof(char) * ft_strlen(s) - size + 1);
 	if (!new)
 		return (NULL);
 	i = -1;
-	size = -1;
+	j = -1;
 	while (s[++i])
 	{
-		if (!sq || !dq)
-			ft_quote(s[i], &dq, &sq);
-		new[++size] = s[i];
+		if (s[i] != '\"' && s[i] != '\'')
+			new[++j] = s[i];
+		else if (s[i] == '\'')
+			ft_cpy_simple(s, &new, &i, &j);
+		else if (s[i] == '\"')
+			ft_cpy_double(s, &new, &i, &j);
 	}
-	new[++size] = '\0';
+	new[++j] = '\0';
 	free(s);
 	return (new);
 }
