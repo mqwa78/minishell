@@ -25,11 +25,11 @@ void	ft_init_data(t_data *data)
 {
 	data->env = NULL;
 	data->tok = NULL;
-	data->line = ft_strdup("echo \"$HOME$ $? $USER\" >> file.txt | $YO << $USER |");
+	data->line = ft_strdup("echo \"$HOME $?\" \'$USER\"te\"st\' >> file.txt | \'$YO\' << $USER |");
 	data->spe = 0;
 }
 
-int	main(int ac, char **av, char **env)
+/*int	main(int ac, char **av, char **env)
 {	
 	t_data	data;
 
@@ -49,4 +49,4 @@ int	main(int ac, char **av, char **env)
 	ft_clear_env(&data.env);
 	ft_clear_tok(&data.tok);
 	return (0);
-}
+}*/

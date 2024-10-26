@@ -1,55 +1,6 @@
 
 #include "minishell.h"
 
-char	*ft_erase_quotes(char *s, int size)
-{
-	char	*new;
-	int		i;
-	int		j;
-
-	new = malloc(sizeof(char) * ft_strlen(s) - size + 1);
-	if (!new)
-		return (NULL);
-	i = -1;
-	j = -1;
-	while (s[++i])
-	{
-		if (s[i] != '\"' && s[i] != '\'')
-			new[++j] = s[i];
-		else if (s[i] == '\'')
-			ft_cpy_simple(s, &new, &i, &j);
-		else if (s[i] == '\"')
-			ft_cpy_double(s, &new, &i, &j);
-	}
-	new[++j] = '\0';
-	free(s);
-	return (new);
-}
-
-int	ft_count_quotes(char *s)
-{
-	int	sq;
-	int	dq;
-	int	i;
-	int	count;
-
-	sq = 0;
-	dq = 0;
-	count = 0;
-	i = -1;
-	if (!s)
-		return (count);
-	while (s[++i])
-	{
-		ft_quote(s[i], &dq, &sq);
-		if (s[i] == '\"' && dq && !sq)
-			count++;
-		else if (s[i] == '\'' && sq && !dq)
-			count++;
-	}
-	return (count * 2);
-}
-
 char	*ft_free_and_return(char *new, char *old)
 {
 	free(old);

@@ -63,7 +63,7 @@ int	ft_setup_env(t_data *data, char **env)
 	char	*key;
 	char	*value;
 
-	if (!(*env))
+	if (!env || !(*env))
 		return (0);
 	i = -1;
 	list = NULL;

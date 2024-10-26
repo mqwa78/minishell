@@ -75,43 +75,6 @@ int	ft_invalid_char(char *s)
 	return (0);
 }
 
-int	ft_check_spe(char *s, char c, int i)
-{	
-	int	count_c;
-
-	count_c = 1;
-	while (s[++i] && (s[i] == c || ft_isspace(s[i])))
-	{	
-		if (s[i] == c)
-			count_c++;
-	}
-	if (count_c > 2)
-		return (ft_print_error_syn(c));
-	return (0);
-}
-
-// pas utile, a faire plus tard apres tokens
-
-int	ft_check_syntax(char *s)
-{	
-	int	i;
-	int	dq;
-	int	sq;
-
-	i = -1;
-	dq = 0;
-	sq = 0;
-	while (s[++i])
-	{	
-		ft_quote(s[i], &dq, &sq);
-		if (s[i] == '<' && !dq && !sq && ft_check_spe(s, s[i], i))
-			return (1);
-		else if (s[i] == '>' && !dq && !sq && ft_check_spe(s, s[i], i))
-			return (1);
-	}
-	return (0);
-}
-
 // free data->line si error
 //add tokeniser ? et ensuite check tok syntax puis continu si pb
 //Si fail tokeniser, free all, env compris car malloc fail 
@@ -127,7 +90,5 @@ int	ft_parse(t_data *data)
 	if (tokeniser(data, data->line))
 		return (0);
 	expander(data);
-	//if (ft_check_syntax(data->line))  a mettre dans tokeniser
-		//return (ft_print_parse(data, 0));
 	return (1);
 }

@@ -63,8 +63,6 @@ int		ft_parse(t_data *data);
 int		ft_open_quotes(char *s);
 void	ft_quote(char c, int *dq, int *sq);
 int		ft_invalid_char(char *s);
-int		ft_check_spe(char *s, char c, int i);
-int		ft_check_syntax(char *s);
 int		ft_print_error_syn(char c);
 int		ft_print_parse(t_data *data, int flag);
 
@@ -92,6 +90,9 @@ char	*ft_expand_spe(t_data *data, char *s, int i);
 void	ft_clear_quote(t_data *data, t_tok **tok);
 int		ft_count_quotes(char *s);
 char	*ft_erase_quotes(char *s, int size);
+void	ft_cpy_simple(char *s, char **new, int *i, int *j);
+void	ft_cpy_double(char *s, char **new, int *i, int *j);
+void	ft_cpy(char *s, char **new, int *i, int *j);
 
 //		MANIPULATION LIST				//
 
@@ -103,10 +104,7 @@ int		ft_lstadd_back(t_env **lst, t_env *new);
 int		ft_echo(char **arg, int fd);
 int		ft_pwd(void);
 int		ft_env(t_env *env, int fd);
-
-//		BUILTINS_UTILS					//
-
-int		ft_check_n(char *str);
+int		ft_unset(t_data *data, char **cmd);
 
 //		CLEAR FREE						//
 
@@ -124,6 +122,7 @@ int		ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
 char	*ft_itoa(int n);
 int		ft_strcmp(char *s1, char *s2);
+int		ft_strncmp(const char *s1, const char *s2, int n);
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_isalpha(int c);
