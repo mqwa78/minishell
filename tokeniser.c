@@ -88,9 +88,6 @@ int	ft_add_special(t_tok **tok, char *s, int *i)
 	return (1);
 }
 
-// si error de malloc, free env + line + tokens et exit ici
-//si check_synax pb, on affiche error token, on free token + line et on itere
-
 int	tokeniser(t_data *data, char *s)
 {
 	t_tok	*token;
@@ -109,9 +106,11 @@ int	tokeniser(t_data *data, char *s)
 	}
 	data->tok = token;
 	free(data->line);
-	//if (ft_check_synthax_token(data->tok))
-	//ft_clear_tok(&data->tok);
-	//return (1):
-	//ft_setup_token_types(&data->tok);
+	if (ft_check_synthax_token(data->tok))
+	{
+		ft_clear_tok(&data->tok);
+		return (1);
+	}
+	ft_setup_token_types(data->tok);
 	return (0);
 }

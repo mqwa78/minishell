@@ -10,7 +10,7 @@ void	ft_clear_quote(t_data *data, t_tok **tok)
 	count = ft_count_quotes(s);
 	if (count == 0)
 		return ;
-	(*tok)->token = ft_erase_quotes((*tok)->token, count); 
+	(*tok)->token = ft_erase_quotes((*tok)->token, count);
 	if (!(*tok)->token)
 		ft_clear_garbage(data, -1);
 }
@@ -73,7 +73,7 @@ char	*ft_expand_spe(t_data *data, char *s, int i)
 	return (ft_free_and_return(new, s));
 }
 
-void	ft_expand(t_data *data, t_tok **tok)
+void	ft_expand(t_data *data, t_tok **tok, t_exp **x)
 {
 	char	*s;
 	int		i;
@@ -87,13 +87,13 @@ void	ft_expand(t_data *data, t_tok **tok)
 	while (s[++i])
 	{	
 		ft_quote(s[i], &dq, &sq);
-		if (s[i] == '$' && s[i + 1] && ft_isalnum(s[i + 1]) && !sq)
+		if (s[i] == '$' && s[i + 1] && ft_isalnum(s[i + 1]) && !exp_q(x))
 		{
 			(*tok)->token = ft_expand_word(data, (*tok)->token, i + 1);
 			s = (*tok)->token;
 			i = -1;
 		}
-		else if (s[i] == '$' && s[i + 1] && s[i + 1] == '?' && !sq)
+		else if (s[i] == '$' && s[i + 1] && s[i + 1] == '?' && !exp_q(x))
 		{
 			(*tok)->token = ft_expand_spe(data, (*tok)->token, i);
 			s = (*tok)->token;
@@ -105,15 +105,20 @@ void	ft_expand(t_data *data, t_tok **tok)
 void	expander(t_data *data)
 {	
 	t_tok	*cur;
+	t_exp	*exp;
 
 	cur = data->tok;
+	exp = NULL;
 	while (cur)
 	{	
 		if (cur->type > 5)
 		{
-			ft_expand(data, &cur);
+			ft_create_lst_exp(data, &exp, cur->token);
 			ft_clear_quote(data, &cur);
+			ft_expand(data, &cur, &exp);
 		}
 		cur = cur->next;
 	}
+	ft_reset_lst(&exp);
+	ft_clear_exp(&exp);
 }

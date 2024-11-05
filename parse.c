@@ -44,9 +44,6 @@ void	ft_quote(char c, int *dq, int *sq)
 		*sq = 0;
 }
 
-// Minishell ne doit pas gérer tous les char spéciaux.
-// On check si il y a un char spé invalid sans être dans des quotes.
-
 int	ft_invalid_char(char *s)
 {	
 	int	i;
@@ -90,5 +87,7 @@ int	ft_parse(t_data *data)
 	if (tokeniser(data, data->line))
 		return (0);
 	expander(data);
+	//if (!cmd_builder(data))
+	//	return (0);
 	return (1);
 }

@@ -1,6 +1,14 @@
 
 #include "minishell.h"
 
+void	ft_reset_lst(t_exp **exp)
+{
+	if (!exp || !(*exp))
+		return ;
+	while ((*exp)->prev)
+		(*exp) = (*exp)->prev;
+}
+
 char	*ft_free_and_return(char *new, char *old)
 {
 	free(old);

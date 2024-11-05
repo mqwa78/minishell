@@ -33,6 +33,12 @@ typedef struct s_tok
 	struct s_tok	*next;
 }				t_tok;
 
+typedef struct s_exp
+{
+	int				sq;
+	struct s_exp	*prev;
+	struct s_exp	*next;
+}				t_exp;
 typedef struct s_cmd
 {	
 	int				in;
@@ -63,7 +69,6 @@ int		ft_parse(t_data *data);
 int		ft_open_quotes(char *s);
 void	ft_quote(char c, int *dq, int *sq);
 int		ft_invalid_char(char *s);
-int		ft_print_error_syn(char c);
 int		ft_print_parse(t_data *data, int flag);
 
 //		TOKENISER						//
@@ -77,11 +82,15 @@ int		ft_new_token(t_tok **begin, char *str, int type);
 int		is_special(char *s, char c, int i);
 int		ft_add_special(t_tok **tok, char *s, int *i);
 int		ft_create_spe(t_tok **begin, char *str, int type);
+int		ft_check_synthax_token(t_tok *tok);
+int		ft_check_pipe(t_tok *tok);
+int		ft_check_spe_synthax(t_tok *tok);
+void	ft_setup_token_types(t_tok *tok);
 
 //		EXPANDER						//
 
 void	expander(t_data *data);
-void	ft_expand(t_data *data, t_tok **tok);
+void	ft_expand(t_data *data, t_tok **tok, t_exp **x);
 char	*ft_expand_word(t_data *data, char *s, int i);
 char	*ft_get_key(t_data *data, char *s, int i);
 char	*ft_get_value(t_data *data, char *key);
@@ -93,6 +102,19 @@ char	*ft_erase_quotes(char *s, int size);
 void	ft_cpy_simple(char *s, char **new, int *i, int *j);
 void	ft_cpy_double(char *s, char **new, int *i, int *j);
 void	ft_cpy(char *s, char **new, int *i, int *j);
+void	ft_create_lst_exp(t_data *data, t_exp **exp, char *s);
+void	ft_add_elem_exp(t_data *data, t_exp **begin, int sq);
+int		ft_new_exp(t_exp **begin, int sq);
+int		ft_lstadd_back3(t_exp **lst, t_exp *new);
+int		exp_q(t_exp **exp);
+void	ft_reset_lst(t_exp **exp);
+
+//		CMD_BUILDER						//
+
+int		cmd_builder(t_data *data);
+int		ft_create_cmd(t_data *data, t_cmd **cmd, t_tok *tok);
+int		ft_new_cmd(t_cmd **begin);
+int		ft_lstadd_back4(t_cmd **lst, t_cmd *new);
 
 //		MANIPULATION LIST				//
 
@@ -112,6 +134,7 @@ void	ft_clear_garbage(t_data *data, int flag);
 void	ft_clear_expand(t_data *data, char *key, char *value, int flag);
 void	ft_clear_env(t_env **lst);
 void	ft_clear_tok(t_tok **lst);
+void	ft_clear_exp(t_exp **lst);
 
 //		LIBFT							//
 
@@ -131,4 +154,5 @@ int		ft_isalnum(int c);
 //		DEBUG							//
 void	ft_print_lst(t_tok *tok);
 void	ft_print_lst2(t_env *tok);
+void	ft_print_lst3(t_exp *tok);
 #endif

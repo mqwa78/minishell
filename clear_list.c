@@ -24,6 +24,15 @@ void	ft_clear_expand(t_data *data, char *key, char *value, int flag)
 		ft_clear_garbage(data, -1);
 }
 
+void	ft_clear_exp(t_exp **lst)
+{
+	if (!lst || !(*lst))
+		return ;
+	ft_clear_exp(&(*lst)->next);
+	free(*lst);
+	*lst = NULL;
+}
+
 void	ft_clear_env(t_env **lst)
 {
 	if (!lst || !(*lst))

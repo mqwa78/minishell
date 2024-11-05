@@ -23,7 +23,7 @@ int	ft_check_var_key(char *s)
 void	ft_print_unset(char *s)
 {
 	ft_putstr_fd("Minishell : unset ", 2);
-	ft_putchar_fd('\'', 2);
+	ft_putchar_fd('`', 2);
 	ft_putstr_fd(s, 2);
 	ft_putchar_fd('\'', 2);
 	ft_putstr_fd(" not a valid identifier\n", 2);
@@ -48,7 +48,7 @@ int	ft_del_node(t_env **begin, t_env **node, int flag)
 		(*begin)->next = (*node)->next;
 		free(tmp->key);
 		free(tmp->value);
-		free(tmp); 
+		free(tmp);
 		return (0);
 	}
 }

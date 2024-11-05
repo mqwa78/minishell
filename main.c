@@ -14,22 +14,24 @@ void	ft_print_lst(t_tok *tok)
 	}
 	printf("%s\n", cur->token);
 	printf("%d\n", cur->type);
-	while (cur)
+	/*while (cur)
 	{
 		printf("%s\n", cur->token);
 		cur = cur->prev;
-	}
+	}*/
 }
 
 void	ft_init_data(t_data *data)
 {
 	data->env = NULL;
 	data->tok = NULL;
-	data->line = ft_strdup("echo \"$HOME $?\" \'$USER\"te\"st\' >> file.txt | \'$YO\' << $USER |");
+	//data->cmd = NULL;
+	//data->line = ft_strdup(" echo \"' '\" <  \"$HOME $?\" \'$USER\"te\"st\' >>  file.txt  \'$YO$?\' << $USER ");
+	data->line = ft_strdup("echo yo \'$HOME\' $$ | > file ls -l | cat file");
 	data->spe = 0;
 }
 
-/*int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {	
 	t_data	data;
 
@@ -47,6 +49,6 @@ void	ft_init_data(t_data *data)
 	//printf("%s\n", data.line);
 	ft_print_lst(data.tok);
 	ft_clear_env(&data.env);
-	ft_clear_tok(&data.tok);
+	//ft_clear_tok(&data.tok);
 	return (0);
-}*/
+}
