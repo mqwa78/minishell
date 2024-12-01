@@ -6,7 +6,8 @@ void	ft_init_data(t_data *data)
 	data->env = NULL;
 	data->tok = NULL;
 	data->cmd = NULL;
-	data->line = ft_strdup("echo 42");
+	//data->line = ft_strdup("echo \"$? + $?\"");
+	data->line = ft_strdup("echo bonjour yo yta gf rz fkz $HOME $USER $po");
 	//data->line = ft_strdup("echo $HOME < bla $ $? \'$HOME\' | ls \"-l double quote \" | cat yo < file > toto    ");
 	data->exit = 0;
 }

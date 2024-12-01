@@ -58,8 +58,6 @@ int	ft_invalid_char(char *s)
 			return (1);
 		else if ((s[i] == 93 || s[i] == 123 || s[i] == 125) && !dq && !sq)
 			return (1);
-		else if (s[i] == 59 && !dq && !sq)
-			return (1);
 		else if (s[i] == '?' && s[i - 1] && s[i - 1] != '$' && !dq && !sq)
 			return (1);
 	}

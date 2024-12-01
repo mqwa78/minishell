@@ -1,6 +1,14 @@
 
 #include "minishell.h"
 
+void	ft_clear_garbage_env(t_data *data)
+{
+	ft_clear_cmd(&data->cmd);
+	ft_clear_env(&data->env);
+	ft_putstr_fd("Minishell : Malloc error\n", 2);
+	exit(1);
+}
+
 int	ft_count_env_elem(t_env *env)
 {
 	int		count;
@@ -63,7 +71,7 @@ char	**ft_lst_to_array(t_data *data)
 		if (!tab[i])
 		{
 			ft_clear_tab2(tab, i);
-			ft_clear_builder(data, &data->cmd);
+			ft_clear_garbage_env(data);
 		}
 		cur = cur->next;
 		i++;
