@@ -43,7 +43,8 @@ typedef struct s_cmd
 {	
 	int				in;
 	int				out;
-	char			**cmd;
+	int				skip;
+	char			**tab;
 	struct s_cmd	*next;
 }				t_cmd;
 typedef struct s_data
@@ -52,20 +53,22 @@ typedef struct s_data
 	t_tok	*tok;
 	t_cmd	*cmd;
 	char	*line;
-	int		spe;
+	int		exit;
 }				t_data;
 
 //		INITIALISATION DATA ET ENV		//
 
+int		minishell(char **env);
 void	ft_init_data(t_data *data);
 int		ft_setup_env(t_data *data, char **env);
 int		ft_add_env(t_env **begin, char *str, char *key);
 char	*ft_cpy_key(char *str);
-char	*ft_cpy_value(char *str);
+char	*ft_cpy_value(char *str, char *key);
 
 //		PARSE							//
 
 int		ft_parse(t_data *data);
+int		ft_only_spaces(char *s);
 int		ft_open_quotes(char *s);
 void	ft_quote(char c, int *dq, int *sq);
 int		ft_invalid_char(char *s);
@@ -115,6 +118,18 @@ int		cmd_builder(t_data *data);
 int		ft_create_cmd(t_data *data, t_cmd **cmd, t_tok *tok);
 int		ft_new_cmd(t_cmd **begin);
 int		ft_lstadd_back4(t_cmd **lst, t_cmd *new);
+int		ft_fill_cmd(t_cmd **elem, t_tok *tok);
+int		ft_fill_tab(t_cmd **elem, t_tok *tok);
+int		ft_count_tokens(t_tok *tok);
+
+//		EXECUTOR						//
+
+int		executer(t_data *data);
+char	**ft_lst_to_array(t_data *data);
+int		ft_count_env_elem(t_env *env);
+char	*ft_fill_env(t_env *env);
+int		is_built(char *cmd);
+int		lunch_built(t_data *data, t_cmd *cmd);
 
 //		MANIPULATION LIST				//
 
@@ -123,9 +138,9 @@ int		ft_lstadd_back(t_env **lst, t_env *new);
 
 //		BUILTINS						//
 
-int		ft_echo(char **arg, int fd);
+int		ft_echo(char **arg);
 int		ft_pwd(void);
-int		ft_env(t_env *env, int fd);
+int		ft_env(t_env *env);
 int		ft_unset(t_data *data, char **cmd);
 
 //		CLEAR FREE						//
@@ -135,6 +150,11 @@ void	ft_clear_expand(t_data *data, char *key, char *value, int flag);
 void	ft_clear_env(t_env **lst);
 void	ft_clear_tok(t_tok **lst);
 void	ft_clear_exp(t_exp **lst);
+void	ft_clear_cmd(t_cmd **lst);
+void	ft_clear_builder(t_data *data, t_cmd **cmd);
+void	ft_clear_tab(char **tab);
+void	ft_clear_tab2(char **tab, int i);
+int		ft_free_elem(t_cmd **elem, char **tab, int i, int flag);
 
 //		LIBFT							//
 
@@ -155,4 +175,5 @@ int		ft_isalnum(int c);
 void	ft_print_lst(t_tok *tok);
 void	ft_print_lst2(t_env *tok);
 void	ft_print_lst3(t_exp *tok);
+void	ft_print_lst4(t_cmd *tok);
 #endif

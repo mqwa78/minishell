@@ -51,7 +51,7 @@ char	*ft_expand_spe(t_data *data, char *s, int i)
 	int		size;
 	int		j;
 
-	nb = ft_itoa(data->spe);
+	nb = ft_itoa(data->exit);
 	if (!nb)
 		ft_clear_garbage(data, -1);
 	size = ft_strlen(s) + ft_strlen(nb) - SPE_SIZE;

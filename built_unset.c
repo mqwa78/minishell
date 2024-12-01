@@ -1,6 +1,5 @@
 
 #include "minishell.h"
-#include <stdio.h>
 
 int	ft_check_var_key(char *s)
 {
@@ -20,13 +19,14 @@ int	ft_check_var_key(char *s)
 	return (0);
 }
 
-void	ft_print_unset(char *s)
+void	ft_print_unset(char *s, int *error)
 {
 	ft_putstr_fd("Minishell : unset ", 2);
 	ft_putchar_fd('`', 2);
 	ft_putstr_fd(s, 2);
 	ft_putchar_fd('\'', 2);
 	ft_putstr_fd(" not a valid identifier\n", 2);
+	*error = 1;
 }
 
 int	ft_del_node(t_env **begin, t_env **node, int flag)
@@ -51,6 +51,7 @@ int	ft_del_node(t_env **begin, t_env **node, int flag)
 		free(tmp);
 		return (0);
 	}
+	return (1);
 }
 
 int	ft_unset_var(t_env **env, char *s)
@@ -67,12 +68,12 @@ int	ft_unset_var(t_env **env, char *s)
 		return (0);
 	}
 	if (ft_strcmp(cur_prev->key, s) == 0)
-		return (!ft_del_node(env, &cur_prev, 0));
+		return (ft_del_node(env, &cur_prev, 0));
 	cur = cur_prev->next;
 	while (cur)
 	{
 		if (ft_strcmp(cur->key, s) == 0)
-			return (!ft_del_node(&cur_prev, &cur, 1));
+			return (ft_del_node(&cur_prev, &cur, 1));
 		cur_prev = cur_prev->next;
 		cur = cur->next;
 	}
@@ -82,35 +83,23 @@ int	ft_unset_var(t_env **env, char *s)
 int	ft_unset(t_data *data, char **tab)
 {	
 	int	i;
+	int	error;
 	int	res;
 
 	res = 0;
+	error = 0;
 	if (!tab[1])
 		return (res);
 	i = 1;
 	while (tab[i])
 	{
 		if (ft_check_var_key(tab[i]))
-			ft_print_unset(tab[i]);
+			ft_print_unset(tab[i], &error);
 		else
 			res = ft_unset_var(&data->env, tab[i]);
 		i++;
 	}
+	if (error)
+		res = error;
 	return (res);
 }
-
-/*int	main(int ac, char **av, char **env)
-{
-	t_data	data;
-	int	res;
-
-	ft_init_data(&data);
-	if (!ft_setup_env(&data, env))
-		return (0);
-	res = ft_env(data.env, 1);
-	printf("%d\n", ft_unset(&data, av));
-	res = ft_env(data.env, 1);
-	ft_clear_env(&data.env);
-	free(data.line);
-	return (0);
-}*/

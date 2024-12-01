@@ -97,7 +97,7 @@ int	tokeniser(t_data *data, char *s)
 	i = 0;
 	while (s[i])
 	{	
-		while (ft_isspace(s[i]))
+		while (s[i] && ft_isspace(s[i]))
 			i++;
 		if (s[i] && !is_special(s, s[i], i) && !ft_add_token(&token, s, &i))
 			ft_clear_garbage(data, 0);

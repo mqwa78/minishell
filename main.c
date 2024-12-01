@@ -6,49 +6,38 @@ void	ft_print_lst(t_tok *tok)
 	t_tok	*cur;
 
 	cur = tok;
-	while (cur->next)
+	while (cur)
 	{
 		printf("%s\n", cur->token);
 		printf("%d\n", cur->type);
 		cur = cur->next;
 	}
-	printf("%s\n", cur->token);
-	printf("%d\n", cur->type);
-	/*while (cur)
-	{
-		printf("%s\n", cur->token);
-		cur = cur->prev;
-	}*/
 }
 
-void	ft_init_data(t_data *data)
+void	ft_print_lst4(t_cmd *tok)
 {
-	data->env = NULL;
-	data->tok = NULL;
-	//data->cmd = NULL;
-	//data->line = ft_strdup(" echo \"' '\" <  \"$HOME $?\" \'$USER\"te\"st\' >>  file.txt  \'$YO$?\' << $USER ");
-	data->line = ft_strdup("echo yo \'$HOME\' $$ | > file ls -l | cat file");
-	data->spe = 0;
+	t_cmd	*cur;
+	int		i;
+
+	cur = tok;
+	while (cur)
+	{
+		i = 0;
+		printf("Elem : %d\n\n", i + 1);
+		while (cur->tab[i])
+		{
+			printf("%s\n", cur->tab[i]);
+			i++;
+		}
+		cur = cur->next;
+		printf("\n");
+	}
 }
 
 int	main(int ac, char **av, char **env)
-{	
-	t_data	data;
-
+{
 	(void) ac;
 	(void) av;
-	ft_init_data(&data);
-	if (!ft_setup_env(&data, env))
-		return (0);
-	//data.line = ft_readline + strtrim pour les espaces
-	if (!ft_parse(&data))
-	{
-		//on va utiliser continu pour relire une line
-		return (0);
-	}
-	//printf("%s\n", data.line);
-	ft_print_lst(data.tok);
-	ft_clear_env(&data.env);
-	//ft_clear_tok(&data.tok);
-	return (0);
+
+	return (minishell(env));
 }

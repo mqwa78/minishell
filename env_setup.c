@@ -28,32 +28,27 @@ char	*ft_cpy_key(char *str)
 	return (NULL);
 }
 
-char	*ft_cpy_value(char *str)
+char	*ft_cpy_value(char *str, char *key)
 {
 	char	*value;
 	int		count;
 	int		i;
 	int		len;
 
-	len = (int)ft_strlen(str) - 1;
+	if (!key)
+		return (NULL);
+	len = (int)ft_strlen(key) + 1;
 	count = 0;
-	while (str[len] && str[len] != '=')
-	{
+	while (str[len + count])
 		count++;
-		len--;
-	}
-	if (str[len] == '=')
-	{
-		value = malloc(sizeof(char) * count + 1);
-		if (!value)
-			return (NULL);
-		i = 0;
-		while (str[++len])
-			value[i++] = str[len];
-		value[i] = '\0';
-		return (value);
-	}
-	return (NULL);
+	value = malloc(sizeof(char) * (count + 1));
+	if (!value)
+		return (NULL);
+	i = 0;
+	while (str[len])
+		value[i++] = str[len++];
+	value[i] = '\0';
+	return (value);
 }
 
 int	ft_setup_env(t_data *data, char **env)
@@ -70,7 +65,7 @@ int	ft_setup_env(t_data *data, char **env)
 	while (env[++i])
 	{
 		key = ft_cpy_key(env[i]);
-		value = ft_cpy_value(env[i]);
+		value = ft_cpy_value(env[i], key);
 		if (!key || !value || !ft_add_env(&list, key, value))
 		{
 			ft_clear_env(&list);

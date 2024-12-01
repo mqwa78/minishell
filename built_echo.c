@@ -18,7 +18,7 @@ int	ft_check_n(char *str)
 	return (0);
 }
 
-int	ft_echo(char **arg, int fd)
+int	ft_echo(char **arg)
 {
 	int	i;
 	int	n_op;
@@ -27,8 +27,8 @@ int	ft_echo(char **arg, int fd)
 		return (1);
 	if (!arg[1])
 	{
-		ft_putchar_fd('\n', fd);
-		return (1);
+		ft_putchar_fd('\n', 1);
+		return (0);
 	}
 	i = 1;
 	n_op = ft_check_n(arg[i]);
@@ -36,13 +36,13 @@ int	ft_echo(char **arg, int fd)
 		i++;
 	while (arg[i])
 	{
-		ft_putstr_fd(arg[i], fd);
+		ft_putstr_fd(arg[i], 1);
 		if (arg[i + 1])
-			ft_putchar_fd(' ', fd);
+			ft_putchar_fd(' ', 1);
 		i++;
 	}
 	if (n_op)
 		return (0);
-	ft_putchar_fd('\n', fd);
+	ft_putchar_fd('\n', 1);
 	return (0);
 }

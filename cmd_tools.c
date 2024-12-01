@@ -8,7 +8,8 @@ int	ft_new_cmd(t_cmd **begin)
 		return (0);
 	(*begin)->in = 0;
 	(*begin)->out = 0;
-	(*begin)->cmd = NULL;
+	(*begin)->skip = 0;
+	(*begin)->tab = NULL;
 	(*begin)->next = NULL;
 	return (1);
 }

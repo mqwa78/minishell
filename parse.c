@@ -1,12 +1,6 @@
 
 #include "minishell.h"
 
-// '\'' ascii = 39
-// '\"' ascii = 34
-// On passe sq et dq a 1 si on est dans des quotes
-// On repasse sq et dq a 0 quand on sort des quotes
-// si a la fin sq == 1 ou dq == 1 alors open quote
-
 int	ft_open_quotes(char *s)
 {	
 	int	sq;
@@ -56,7 +50,7 @@ int	ft_invalid_char(char *s)
 	while (s[++i])
 	{
 		ft_quote(s[i], &dq, &sq);
-		if ((s[i] == 44 || s[i] == 126 || s[i] == 35) && !dq && !sq)
+		if ((s[i] == 44 || s[i] == 35) && !dq && !sq)
 			return (1);
 		else if ((s[i] == 38 || s[i] == 42 || s[i] == 33) && !dq && !sq)
 			return (1);
@@ -72,14 +66,26 @@ int	ft_invalid_char(char *s)
 	return (0);
 }
 
-// free data->line si error
-//add tokeniser ? et ensuite check tok syntax puis continu si pb
-//Si fail tokeniser, free all, env compris car malloc fail 
+int	ft_only_spaces(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s || !*s)
+		return (1);
+	while (s[i])
+	{
+		if (!ft_isspace(s[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int	ft_parse(t_data *data)
 {	
-	if (data->line[0] == '\0')
-		return (0);
+	if (data->line[0] == '\0' || ft_only_spaces(data->line))
+		return (ft_print_parse(data, 0));
 	if (ft_open_quotes(data->line))
 		return (ft_print_parse(data, 1));
 	if (ft_invalid_char(data->line))
@@ -87,7 +93,7 @@ int	ft_parse(t_data *data)
 	if (tokeniser(data, data->line))
 		return (0);
 	expander(data);
-	//if (!cmd_builder(data))
-	//	return (0);
+	if (!cmd_builder(data))
+		return (0);
 	return (1);
 }
