@@ -64,6 +64,7 @@ int		ft_setup_env(t_data *data, char **env);
 int		ft_add_env(t_env **begin, char *str, char *key);
 char	*ft_cpy_key(char *str);
 char	*ft_cpy_value(char *str, char *key);
+char	*ft_get_value1(t_data *data, char *key);
 
 //		PARSE							//
 
@@ -72,7 +73,6 @@ int		ft_only_spaces(char *s);
 int		ft_open_quotes(char *s);
 void	ft_quote(char c, int *dq, int *sq);
 int		ft_invalid_char(char *s);
-int		ft_print_parse(t_data *data, int flag);
 
 //		TOKENISER						//
 
@@ -134,6 +134,7 @@ int		lunch_built(t_data *data, t_cmd *cmd);
 //		MANIPULATION LIST				//
 
 int		ft_create_elem(t_env **begin, char *str, char *key);
+int		ft_create_elem1(t_env **begin, char *key, char *value);
 int		ft_lstadd_back(t_env **lst, t_env *new);
 
 //		BUILTINS						//
@@ -142,6 +143,15 @@ int		ft_echo(char **arg);
 int		ft_pwd(void);
 int		ft_env(t_env *env);
 int		ft_unset(t_data *data, char **cmd);
+int		ft_export(t_data *data, char **cmd);
+int		ft_cd(t_data *data, char **args);
+
+//		PRINT							//
+
+int		ft_print_parse(t_data *data, int flag);
+int		print_error(char *str);
+int		ft_print_export_error(char *str);
+int		ft_print_export(t_env *env);
 
 //		CLEAR FREE						//
 

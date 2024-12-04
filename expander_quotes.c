@@ -15,7 +15,7 @@ void	ft_cpy_simple(char *s, char **new, int *i, int *j)
 void	ft_cpy_double(char *s, char **new, int *i, int *j)
 {
 	*i += 1;
-	while (s[*i] && s[*i] != '\"')
+	while (s[*i] && s[*i] != '"')
 	{
 		(*new)[*j] = s[*i];
 		*i += 1;
@@ -25,7 +25,7 @@ void	ft_cpy_double(char *s, char **new, int *i, int *j)
 
 void	ft_cpy(char *s, char **new, int *i, int *j)
 {
-	while (s[*i] && s[*i] != '\'' && s[*i] != '\"')
+	while (s[*i] && s[*i] != '\'' && s[*i] != '"')
 	{
 		(*new)[*j] = s[*i];
 		*i += 1;
@@ -46,11 +46,11 @@ char	*ft_erase_quotes(char *s, int size)
 	j = 0;
 	while (s[i])
 	{
-		if (s[i] != '\"' && s[i] != '\'')
+		if (s[i] != '"' && s[i] != '\'')
 			ft_cpy(s, &new, &i, &j);
 		else if (s[i] == '\'')
 			ft_cpy_simple(s, &new, &i, &j);
-		else if (s[i] == '\"')
+		else if (s[i] == '"')
 			ft_cpy_double(s, &new, &i, &j);
 	}
 	new[j] = '\0';
@@ -74,7 +74,7 @@ int	ft_count_quotes(char *s)
 	while (s[++i])
 	{
 		ft_quote(s[i], &dq, &sq);
-		if (s[i] == '\"' && dq && !sq)
+		if (s[i] == '"' && dq && !sq)
 			count++;
 		else if (s[i] == '\'' && sq && !dq)
 			count++;

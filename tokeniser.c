@@ -109,6 +109,7 @@ int	tokeniser(t_data *data, char *s)
 	if (ft_check_synthax_token(data->tok))
 	{
 		ft_clear_tok(&data->tok);
+		data->exit = 2;
 		return (1);
 	}
 	ft_setup_token_types(data->tok);

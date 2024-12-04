@@ -11,8 +11,10 @@ int	lunch_built(t_data *data, t_cmd *cmd)
 		data->exit = ft_pwd();
 	else if (!ft_strncmp("unset", cmd->tab[0], 6))
 		data->exit = ft_unset(data, cmd->tab);
-	//else if (!ft_strncmp("export", cmd->tab[0], 7))
-	//	data->exit = ft_export(data, cmd->tab);
+	else if (!ft_strncmp("cd", cmd->tab[0], 3))
+		data->exit = ft_cd(data, cmd->tab);
+	else if (!ft_strncmp("export", cmd->tab[0], 7))
+		data->exit = ft_export(data, cmd->tab);
 	return (1);
 }
 
@@ -24,8 +26,8 @@ int	is_built(char *cmd)
 		return (1);
 	else if (!strncmp("pwd", cmd, 4) || !ft_strncmp("unset", cmd, 6))
 		return (1);
-	//else if (!strncmp("export", cmd, 7))
-	//	return (1);
+	else if (!strncmp("cd", cmd, 3) || !ft_strncmp("export", cmd, 7))
+		return (1);
 	return (0);
 }
 

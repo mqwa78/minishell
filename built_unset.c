@@ -25,7 +25,7 @@ void	ft_print_unset(char *s, int *error)
 	ft_putchar_fd('`', 2);
 	ft_putstr_fd(s, 2);
 	ft_putchar_fd('\'', 2);
-	ft_putstr_fd(" not a valid identifier\n", 2);
+	ft_putstr_fd(" : not a valid identifier\n", 2);
 	*error = 1;
 }
 
