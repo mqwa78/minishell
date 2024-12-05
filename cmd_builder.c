@@ -50,6 +50,14 @@ int	ft_fill_tab(t_cmd **elem, t_tok *tok)
 
 int	ft_fill_cmd(t_cmd **elem, t_tok *tok)
 {
+	if (!ft_get_files(elem, tok))
+	{
+		(*elem)->skip = 1;
+		if ((*elem)->in >= 0)
+			close((*elem)->in);
+		if ((*elem)->out >= 0)
+			close((*elem)->out);
+	}
 	if (!ft_fill_tab(elem, tok))
 		return (0);
 	return (1);

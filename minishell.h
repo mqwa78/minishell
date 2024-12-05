@@ -7,6 +7,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <linux/limits.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 # define INPUT		1	// "<"
 # define HEREDOC	2	// "<<"
@@ -121,6 +123,10 @@ int		ft_lstadd_back4(t_cmd **lst, t_cmd *new);
 int		ft_fill_cmd(t_cmd **elem, t_tok *tok);
 int		ft_fill_tab(t_cmd **elem, t_tok *tok);
 int		ft_count_tokens(t_tok *tok);
+int		open_file(char *filename, int type);
+int		get_out(t_cmd **elem, t_tok *tok);
+int		get_in(t_cmd **elem, t_tok *tok);
+int		ft_get_files(t_cmd **elem, t_tok *token);
 
 //		EXECUTOR						//
 

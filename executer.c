@@ -38,7 +38,7 @@ int	executer(t_data *data)
 	t_cmd	*cur;
 
 	cur = data->cmd;
-	if (cur && !cur->next && cur->tab[0] && is_built(cur->tab[0]))
+	if (cur && !cur->skip && !cur->next && cur->tab[0] && is_built(cur->tab[0]))
 		return (lunch_built(data, cur));
 	return (1);
 }

@@ -24,21 +24,21 @@ int	minishell(char **env)
 	while (i++ < 6)
 	{
 		if (i % 6 == 1)
-			data.line = ft_strdup("unset PWD");
+			data.line = ft_strdup("echo yo");
 		else if (i % 6 == 2)
-			data.line = ft_strdup("pwd");
+			data.line = ft_strdup("echo yo");
 		else if (i % 6 == 3)
-			data.line = ft_strdup("cd ..");
+			data.line = ft_strdup("echo yo");
 		else if (i % 6 == 4)
-			data.line = ft_strdup("pwd");
+			data.line = ft_strdup("< yu echo yo");
 		else if (i % 6 == 5)
-			data.line = ft_strdup("cd ..");
+			data.line = ft_strdup("> TEST echo yo > TESTO > POUET > HELLO ");
 		else if (i % 6 == 0)
 			data.line = ft_strdup("echo $$$");
 	if (!data.line)
 		return (1);
 	printf("CMD NUMERO %d -------------------\n", i - 1);
-	//printf("%s\n", data.line);
+	printf("%s\n", data.line);
 	//data.line = ft_readline + strdup pour malloc
 	//if !data.line
 	//ft_clear_env(&data.env);
@@ -52,7 +52,7 @@ int	minishell(char **env)
 		printf("malloc error\n");
 		return (1);
 	}
-	printf("%d\n", data.exit);
+	//printf("%d\n", data.exit);
 	ft_clear_cmd(&data.cmd);
 	}
 	ft_clear_env(&data.env);

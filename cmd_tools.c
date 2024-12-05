@@ -6,8 +6,8 @@ int	ft_new_cmd(t_cmd **begin)
 	(*begin) = malloc(sizeof(t_cmd));
 	if (!(*begin))
 		return (0);
-	(*begin)->in = 0;
-	(*begin)->out = 0;
+	(*begin)->in = -2;
+	(*begin)->out = -2;
 	(*begin)->skip = 0;
 	(*begin)->tab = NULL;
 	(*begin)->next = NULL;
