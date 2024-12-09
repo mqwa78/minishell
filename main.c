@@ -18,12 +18,14 @@ void	ft_print_lst4(t_cmd *tok)
 {
 	t_cmd	*cur;
 	int		i;
+	int		j;
 
+	j = 1;
 	cur = tok;
 	while (cur)
 	{
 		i = 0;
-		printf("Elem : %d\n\n", i + 1);
+		printf("Elem : %d\n\n", j++);
 		while (cur->tab[i])
 		{
 			printf("%s\n", cur->tab[i]);

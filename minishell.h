@@ -7,8 +7,10 @@
 # include <stdlib.h>
 # include <string.h>
 # include <linux/limits.h>
-# include <sys/stat.h>
 # include <fcntl.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 # define INPUT		1	// "<"
 # define HEREDOC	2	// "<<"
@@ -20,6 +22,7 @@
 # define ARG		8	// "Argument"
 # define SPE_SIZE	2
 
+extern	pid_t	g_sig_pid;
 typedef struct s_env
 {
 	char			*key;
@@ -55,6 +58,7 @@ typedef struct s_data
 	t_tok	*tok;
 	t_cmd	*cmd;
 	char	*line;
+	int		pip[2];
 	int		exit;
 }				t_data;
 
@@ -135,7 +139,23 @@ char	**ft_lst_to_array(t_data *data);
 int		ft_count_env_elem(t_env *env);
 char	*ft_fill_env(t_env *env);
 int		is_built(char *cmd);
-int		lunch_built(t_data *data, t_cmd *cmd);
+void	exec_built(t_data *data, t_cmd *cmd, int out);
+int		exec_cmd(t_data *data, t_cmd *cmd, int *pip);
+void	child_process(t_data *data, t_cmd *cmd, int *pip);
+void	parent_process(t_cmd *cmd, int *pip);
+void	wait_all(t_data *data);
+int		command_exists(char **path, t_data *data, char *cmd);
+int		is_regular_file(char **path, char *cmd, t_data *data);
+void	absolute_path(char **path, char *cmd, t_data *data);
+char	*find_cmd(t_data *data, char *sample);
+char	*display_cmd_not_found(const char *cmd);
+int		len_env_list(t_env *lst);
+char	*extract_paths(t_env *env_list, int len);
+int		ft_strjoin_with_slash(char *dest, char *str, char *env, int *index);
+void	ensure_path_variable(t_data *data);
+void	ft_redirect(t_cmd *cmd, int *pip);
+int		launch_builtin(t_data *data, t_cmd *cmd);
+void	setup_built(int *pip, t_cmd *cmd, t_data *data);
 
 //		MANIPULATION LIST				//
 
@@ -171,6 +191,8 @@ void	ft_clear_builder(t_data *data, t_cmd **cmd);
 void	ft_clear_tab(char **tab);
 void	ft_clear_tab2(char **tab, int i);
 int		ft_free_elem(t_cmd **elem, char **tab, int i, int flag);
+void	ft_clear_all(t_data *data, char *str, int err);
+void	ft_close_herited_fd(void);
 
 //		LIBFT							//
 
@@ -186,6 +208,7 @@ int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
+char	*ft_strchr(const char *s, int c);
 
 //		DEBUG							//
 void	ft_print_lst(t_tok *tok);

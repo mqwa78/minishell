@@ -1,37 +1,78 @@
 
 #include "minishell.h"
 
-int	lunch_built(t_data *data, t_cmd *cmd)
+void	ft_redirect(t_cmd *cmd, int *pip)
 {
-	if (!ft_strncmp("echo", cmd->tab[0], 5))
-		data->exit = ft_echo(cmd->tab);
-	else if (!ft_strncmp("env", cmd->tab[0], 4))
-		data->exit = ft_env(data->env);
-	else if (!ft_strncmp("pwd", cmd->tab[0], 4))
-		data->exit = ft_pwd();
-	else if (!ft_strncmp("unset", cmd->tab[0], 6))
-		data->exit = ft_unset(data, cmd->tab);
-	else if (!ft_strncmp("cd", cmd->tab[0], 3))
-		data->exit = ft_cd(data, cmd->tab);
-	else if (!ft_strncmp("export", cmd->tab[0], 7))
-		data->exit = ft_export(data, cmd->tab);
+	close(pip[0]);
+	if (cmd->in >= 0)
+	{
+		dup2(cmd->in, STDIN_FILENO);
+		close(cmd->in);
+	}
+	if (cmd->out >= 0)
+	{
+		dup2(cmd->out, STDOUT_FILENO);
+		close(cmd->out);
+	}
+	else if (cmd->next != NULL)
+		dup2(pip[1], STDOUT_FILENO);
+	close(pip[1]);
+}
+
+void	parent_process(t_cmd *cmd, int *pip)
+{
+	close(pip[1]);
+	if (cmd->in >= 0)
+		close(cmd->in);
+	if (cmd->in == -2)
+		cmd->in = pip[0];
+	if (cmd->next != NULL && cmd->next->in == -2)
+		cmd->next->in = pip[0];
+	else
+		close(pip[0]);
+}
+
+void	child_process(t_data *data, t_cmd *cmd, int *pip)
+{
+	char	*path;
+	char	**env;
+
+	path = NULL;
+	if (is_built(cmd->tab[0]))
+		setup_built(pip, cmd, data);
+	else if (command_exists(&path, data, cmd->tab[0]))
+	{
+		ft_redirect(cmd, pip);
+		env = ft_lst_to_array(data);
+		if (!env)
+			ft_clear_all(data, "Malloc error\n", 1);
+		//rl_clear_history();
+		//signals2();
+		execve(path, cmd->tab, env);
+		perror("execve");
+		free(env);
+	}
+	if (path)
+		free(path);
+	ft_clear_all(data, NULL, data->exit);
+}
+
+int	exec_cmd(t_data *data, t_cmd *cmd, int *pip)
+{
+	g_sig_pid = fork();
+	if (g_sig_pid < 0)
+		ft_clear_all(data, "Fork error\n", 1);
+	else if (!g_sig_pid)
+	{
+		if (!cmd->skip && cmd->tab && cmd->tab[0])
+			child_process(data, cmd, pip);
+		else
+			ft_clear_all(data, NULL, 0);
+	}
+	else
+		parent_process(cmd, pip);
 	return (1);
 }
-
-int	is_built(char *cmd)
-{
-	if (!cmd)
-		return (0);
-	if (!ft_strncmp("echo", cmd, 5) || !ft_strncmp("env", cmd, 4))
-		return (1);
-	else if (!strncmp("pwd", cmd, 4) || !ft_strncmp("unset", cmd, 6))
-		return (1);
-	else if (!strncmp("cd", cmd, 3) || !ft_strncmp("export", cmd, 7))
-		return (1);
-	return (0);
-}
-
-// add un chek skip_cmd dans premier if
 
 int	executer(t_data *data)
 {
@@ -39,6 +80,23 @@ int	executer(t_data *data)
 
 	cur = data->cmd;
 	if (cur && !cur->skip && !cur->next && cur->tab[0] && is_built(cur->tab[0]))
-		return (lunch_built(data, cur));
+		return (launch_builtin(data, cur));
+	if (cur->skip && !cur->next)
+	{
+		data->exit = 1;
+		return (1);
+	}
+	if (pipe(data->pip) == -1)
+		ft_clear_all(data, "pipe error\n", 1);
+	exec_cmd(data, cur, data->pip);
+	cur = cur->next;
+	while (cur)
+	{
+		if (pipe(data->pip) == -1)
+			ft_clear_all(data, "pipe error\n", 1);
+		exec_cmd(data, cur, data->pip);
+		cur = cur->next;
+	}
+	wait_all(data);
 	return (1);
 }
