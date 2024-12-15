@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:47:08 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/12 22:47:11 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -15,7 +26,7 @@ void	ensure_path_variable(t_data *data)
 	}
 	new_env = malloc(sizeof(t_env));
 	if (!new_env)
-		ft_clear_garbage(data, 1);
+		ft_clear_all(data, "Malloc error\n", 1);
 	new_env->key = strdup("PATH");
 	new_env->value = strdup("/usr/bin:/bin");
 	new_env->next = data->env;
@@ -74,12 +85,13 @@ void	absolute_path(char **path, char *cmd, t_data *data)
 	if (!(*path))
 	{
 		print_error("Memory allocation failed\n");
-		ft_clear_garbage(data, 1);
+		ft_clear_all(data, NULL, 1);
 	}
 	if (access((*path), F_OK) != 0)
 	{
+		write(2, "Minishell : ", 13);
 		write(2, (*path), ft_strlen(*path));
-		write(2, " : command not found\n", 21);
+		write(2, " : No such file or directory\n", 30);
 		free(*path);
 		*path = NULL;
 	}

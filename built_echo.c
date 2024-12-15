@@ -1,5 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_echo.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:49:24 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/13 21:12:11 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
+
+int	put_and_return(void)
+{
+	ft_putchar_fd('\n', 1);
+	return (0);
+}
 
 int	ft_check_n(char *str)
 {	
@@ -26,14 +43,14 @@ int	ft_echo(char **arg)
 	if (!arg || !arg[0])
 		return (1);
 	if (!arg[1])
-	{
-		ft_putchar_fd('\n', 1);
-		return (0);
-	}
+		return (put_and_return());
 	i = 1;
-	n_op = ft_check_n(arg[i]);
-	if (n_op)
+	n_op = 0;
+	while (arg[i] && ft_check_n(arg[i]))
+	{
+		n_op = 1;
 		i++;
+	}
 	while (arg[i])
 	{
 		ft_putstr_fd(arg[i], 1);

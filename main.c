@@ -1,40 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:41:02 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/14 04:38:09 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_print_lst(t_tok *tok)
-{
-	t_tok	*cur;
-
-	cur = tok;
-	while (cur)
-	{
-		printf("%s\n", cur->token);
-		printf("%d\n", cur->type);
-		cur = cur->next;
-	}
-}
-
-void	ft_print_lst4(t_cmd *tok)
-{
-	t_cmd	*cur;
-	int		i;
-	int		j;
-
-	j = 1;
-	cur = tok;
-	while (cur)
-	{
-		i = 0;
-		printf("Elem : %d\n\n", j++);
-		while (cur->tab[i])
-		{
-			printf("%s\n", cur->tab[i]);
-			i++;
-		}
-		cur = cur->next;
-		printf("\n");
-	}
-}
 
 int	main(int ac, char **av, char **env)
 {

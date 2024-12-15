@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_synthax.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:42:20 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/12 23:28:07 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -43,7 +54,8 @@ int	ft_check_pipe(t_tok *tok)
 	}
 	if (tok->next->type == PIPE)
 	{
-		ft_putstr_fd("Minishell : error double pipe\n", 2);
+		ft_putstr_fd("Minishell : syntax error near ", 2);
+		ft_putstr_fd("unexpected token `|\'\n", 2);
 		return (1);
 	}
 	return (0);

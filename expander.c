@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:45:32 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/14 03:55:16 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -109,6 +120,7 @@ void	expander(t_data *data)
 
 	cur = data->tok;
 	exp = NULL;
+	ft_check_ambiguous(data, cur);
 	while (cur)
 	{	
 		if (cur->type > 5)
@@ -116,6 +128,11 @@ void	expander(t_data *data)
 			ft_create_lst_exp(data, &exp, cur->token);
 			ft_clear_quote(data, &cur);
 			ft_expand(data, &cur, &exp);
+		}
+		else if (cur->type == HEREDOC)
+		{
+			cur = cur->next;
+			ft_clear_quote(data, &cur);
 		}
 		cur = cur->next;
 	}

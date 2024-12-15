@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executer.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:46:34 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/14 16:59:08 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -46,8 +57,7 @@ void	child_process(t_data *data, t_cmd *cmd, int *pip)
 		env = ft_lst_to_array(data);
 		if (!env)
 			ft_clear_all(data, "Malloc error\n", 1);
-		//rl_clear_history();
-		//signals2();
+		rl_clear_history();
 		execve(path, cmd->tab, env);
 		perror("execve");
 		free(env);
@@ -59,10 +69,11 @@ void	child_process(t_data *data, t_cmd *cmd, int *pip)
 
 int	exec_cmd(t_data *data, t_cmd *cmd, int *pip)
 {
+	setup_signal_handlers(1);
 	g_sig_pid = fork();
 	if (g_sig_pid < 0)
 		ft_clear_all(data, "Fork error\n", 1);
-	else if (!g_sig_pid)
+	else if (g_sig_pid == 0)
 	{
 		if (!cmd->skip && cmd->tab && cmd->tab[0])
 			child_process(data, cmd, pip);

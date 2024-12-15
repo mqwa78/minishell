@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_builder.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:48:08 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/14 17:44:29 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -48,9 +59,9 @@ int	ft_fill_tab(t_cmd **elem, t_tok *tok)
 	return (1);
 }
 
-int	ft_fill_cmd(t_cmd **elem, t_tok *tok)
+int	ft_fill_cmd(t_data *data, t_cmd **elem, t_tok *tok)
 {
-	if (!ft_get_files(elem, tok))
+	if (!ft_get_files(data, elem, tok))
 	{
 		(*elem)->skip = 1;
 		if ((*elem)->in >= 0)
@@ -69,7 +80,7 @@ int	ft_create_cmd(t_data *data, t_cmd **cmd, t_tok *tok)
 
 	if (!ft_new_cmd(&new))
 		ft_clear_builder(data, cmd);
-	if (!ft_fill_cmd(&new, tok))
+	if (!ft_fill_cmd(data, &new, tok))
 		ft_clear_builder(data, cmd);
 	if (!ft_lstadd_back4(cmd, new))
 		return (0);

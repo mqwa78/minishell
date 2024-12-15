@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:42:54 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/15 02:40:55 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -7,10 +18,14 @@
 # include <stdlib.h>
 # include <string.h>
 # include <linux/limits.h>
+# include <limits.h>
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define INPUT		1	// "<"
 # define HEREDOC	2	// "<<"
@@ -21,8 +36,10 @@
 # define CMD		7	// "Command"
 # define ARG		8	// "Argument"
 # define SPE_SIZE	2
+# define LONG_SIZE	21
+# define HERENAME	".heredoc42.mq.tmp"
 
-extern	pid_t	g_sig_pid;
+extern pid_t	g_sig_pid;
 typedef struct s_env
 {
 	char			*key;
@@ -55,6 +72,7 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	t_env	*env;
+	t_env	*dup;
 	t_tok	*tok;
 	t_cmd	*cmd;
 	char	*line;
@@ -69,8 +87,13 @@ void	ft_init_data(t_data *data);
 int		ft_setup_env(t_data *data, char **env);
 int		ft_add_env(t_env **begin, char *str, char *key);
 char	*ft_cpy_key(char *str);
+char	*ft_cpy_key2(char *str);
 char	*ft_cpy_value(char *str, char *key);
+char	*ft_cpy_value2(char *str, char *key);
 char	*ft_get_value1(t_data *data, char *key);
+void	ft_dup_env(t_data *data, t_env *env);
+int		ft_get_pos(char *key, t_env *env);
+void	setup_signal_handlers(int sig);
 
 //		PARSE							//
 
@@ -78,7 +101,7 @@ int		ft_parse(t_data *data);
 int		ft_only_spaces(char *s);
 int		ft_open_quotes(char *s);
 void	ft_quote(char c, int *dq, int *sq);
-int		ft_invalid_char(char *s);
+void	print_exit_error(t_data *data, char *arg);
 
 //		TOKENISER						//
 
@@ -117,6 +140,7 @@ int		ft_new_exp(t_exp **begin, int sq);
 int		ft_lstadd_back3(t_exp **lst, t_exp *new);
 int		exp_q(t_exp **exp);
 void	ft_reset_lst(t_exp **exp);
+void	ft_check_ambiguous(t_data *data, t_tok *tok);
 
 //		CMD_BUILDER						//
 
@@ -124,18 +148,18 @@ int		cmd_builder(t_data *data);
 int		ft_create_cmd(t_data *data, t_cmd **cmd, t_tok *tok);
 int		ft_new_cmd(t_cmd **begin);
 int		ft_lstadd_back4(t_cmd **lst, t_cmd *new);
-int		ft_fill_cmd(t_cmd **elem, t_tok *tok);
+int		ft_fill_cmd(t_data *data, t_cmd **elem, t_tok *tok);
 int		ft_fill_tab(t_cmd **elem, t_tok *tok);
 int		ft_count_tokens(t_tok *tok);
-int		open_file(char *filename, int type);
-int		get_out(t_cmd **elem, t_tok *tok);
-int		get_in(t_cmd **elem, t_tok *tok);
-int		ft_get_files(t_cmd **elem, t_tok *token);
+int		open_file(t_data *data, char *filename, int type);
+int		get_out(t_data *data, t_cmd **elem, t_tok *tok);
+int		get_in(t_data *data, t_cmd **elem, t_tok *tok);
+int		ft_get_files(t_data *data, t_cmd **elem, t_tok *token);
+int		open_here(t_data *data, char *key);
 
 //		EXECUTOR						//
 
 int		executer(t_data *data);
-char	**ft_lst_to_array(t_data *data);
 int		ft_count_env_elem(t_env *env);
 char	*ft_fill_env(t_env *env);
 int		is_built(char *cmd);
@@ -171,6 +195,7 @@ int		ft_env(t_env *env);
 int		ft_unset(t_data *data, char **cmd);
 int		ft_export(t_data *data, char **cmd);
 int		ft_cd(t_data *data, char **args);
+void	ft_exit(t_data *data, char **args);
 
 //		PRINT							//
 
@@ -193,6 +218,9 @@ void	ft_clear_tab2(char **tab, int i);
 int		ft_free_elem(t_cmd **elem, char **tab, int i, int flag);
 void	ft_clear_all(t_data *data, char *str, int err);
 void	ft_close_herited_fd(void);
+void	ft_clear_all_env(t_data *data, t_env **list);
+void	ft_clear_expand_here(t_data *data, char *key, char *value, int flag);
+void	ft_clear_spe_here(t_data *data, char *str);
 
 //		LIBFT							//
 
@@ -206,13 +234,9 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, int n);
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
+int		ft_isoperator(int c);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
-
-//		DEBUG							//
-void	ft_print_lst(t_tok *tok);
-void	ft_print_lst2(t_env *tok);
-void	ft_print_lst3(t_exp *tok);
-void	ft_print_lst4(t_cmd *tok);
+char	**ft_lst_to_array(t_data *data);
 #endif

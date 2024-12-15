@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:42:30 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/14 00:05:05 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -38,32 +49,6 @@ void	ft_quote(char c, int *dq, int *sq)
 		*sq = 0;
 }
 
-int	ft_invalid_char(char *s)
-{	
-	int	i;
-	int	dq;
-	int	sq;
-
-	i = -1;
-	dq = 0;
-	sq = 0;
-	while (s[++i])
-	{
-		ft_quote(s[i], &dq, &sq);
-		if ((s[i] == 44 || s[i] == 35) && !dq && !sq)
-			return (1);
-		else if ((s[i] == 38 || s[i] == 42 || s[i] == 33) && !dq && !sq)
-			return (1);
-		else if ((s[i] == 40 || s[i] == 41 || s[i] == 91) && !dq && !sq)
-			return (1);
-		else if ((s[i] == 93 || s[i] == 123 || s[i] == 125) && !dq && !sq)
-			return (1);
-		else if (s[i] == '?' && s[i - 1] && s[i - 1] != '$' && !dq && !sq)
-			return (1);
-	}
-	return (0);
-}
-
 int	ft_only_spaces(char *s)
 {
 	int	i;
@@ -82,12 +67,13 @@ int	ft_only_spaces(char *s)
 
 int	ft_parse(t_data *data)
 {	
-	if (data->line[0] == '\0' || ft_only_spaces(data->line))
+	if (data->line[0] == '\0')
+		return (ft_print_parse(data, 0));
+	add_history(data->line);
+	if (ft_only_spaces(data->line))
 		return (ft_print_parse(data, 0));
 	if (ft_open_quotes(data->line))
 		return (ft_print_parse(data, 1));
-	if (ft_invalid_char(data->line))
-		return (ft_print_parse(data, 2));
 	if (tokeniser(data, data->line))
 		return (0);
 	expander(data);

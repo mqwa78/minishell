@@ -1,5 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_print.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:42:42 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/15 02:37:17 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_exit_error(t_data *data, char *arg)
+{
+	print_error("exit\n");
+	print_error("minishell: exit: ");
+	print_error(arg);
+	print_error(": numeric argument required\n");
+	ft_clear_all(data, NULL, 2);
+}
 
 int	ft_print_export_error(char *str)
 {
@@ -43,8 +63,6 @@ int	ft_print_parse(t_data *data, int flag)
 {	
 	if (flag == 1)
 		write(2, "minishell : error open quotes\n", 31);
-	else if (flag == 2)
-		write(2, "minishell : error invalid char\n", 32);
 	free(data->line);
 	return (0);
 }

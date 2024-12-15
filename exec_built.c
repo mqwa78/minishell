@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_built.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:47:24 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/14 23:55:55 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -47,6 +58,15 @@ void	exec_built(t_data *data, t_cmd *cmd, int out)
 		data->exit = ft_cd(data, cmd->tab);
 	else if (!ft_strncmp("export", cmd->tab[0], 7))
 		data->exit = ft_export(data, cmd->tab);
+	else if (!ft_strncmp("exit", cmd->tab[0], 5))
+	{
+		if (cmd->out >= 0)
+		{
+			dup2(out, 1);
+			close(out);
+		}
+		ft_exit(data, cmd->tab);
+	}
 }
 
 int	is_built(char *cmd)
@@ -58,6 +78,8 @@ int	is_built(char *cmd)
 	else if (!strncmp("pwd", cmd, 4) || !ft_strncmp("unset", cmd, 6))
 		return (1);
 	else if (!strncmp("cd", cmd, 3) || !ft_strncmp("export", cmd, 7))
+		return (1);
+	else if (!strncmp("exit", cmd, 5))
 		return (1);
 	return (0);
 }

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_cd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:49:39 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/14 16:10:36 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -41,10 +52,17 @@ int	ft_update_pwd(t_data *data)
 int	ft_update_oldpwd(t_data *data)
 {
 	char	cwd[1024];
+	char	*current_pwd;
 
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	current_pwd = getcwd(cwd, sizeof(cwd));
+	if (current_pwd == NULL)
 	{
 		print_error("Error getting current working directory\n");
+		while (current_pwd == NULL)
+		{
+			chdir("..");
+			current_pwd = getcwd(cwd, sizeof(cwd));
+		}
 		return (1);
 	}
 	return (ft_set_env_var(&data->env, "OLDPWD", cwd));
@@ -78,7 +96,7 @@ int	ft_cd(t_data *data, char **args)
 {
 	if (args[1] && args[2])
 	{
-		print_error("cd : too many arguments\n");
+		print_error("minishell: cd : too many arguments\n");
 		return (1);
 	}
 	if (ft_update_oldpwd(data) != 0)
@@ -87,7 +105,7 @@ int	ft_cd(t_data *data, char **args)
 		return (ft_cd_home(data));
 	else if (chdir(args[1]) != 0)
 	{
-		print_error("cd : no such file or directory\n");
+		print_error("minishell: cd : no such file or directory\n");
 		return (1);
 	}
 	return (ft_update_pwd(data));

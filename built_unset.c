@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_unset.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:48:49 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/14 21:36:30 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -96,7 +107,10 @@ int	ft_unset(t_data *data, char **tab)
 		if (ft_check_var_key(tab[i]))
 			ft_print_unset(tab[i], &error);
 		else
+		{
+			res = ft_unset_var(&data->dup, tab[i]);
 			res = ft_unset_var(&data->env, tab[i]);
+		}
 		i++;
 	}
 	if (error)

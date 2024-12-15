@@ -1,5 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_setup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 22:47:42 by mqwa              #+#    #+#             */
+/*   Updated: 2024/12/14 01:10:53 by mqwa             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_dup_env(t_data *data, t_env *env)
+{
+	t_env	*list;
+	t_env	*cur;
+	char	*key;
+	char	*value;
+
+	if (!env)
+		return ;
+	cur = env;
+	list = NULL;
+	while (cur)
+	{
+		key = ft_strdup(cur->key);
+		value = ft_strdup(cur->value);
+		if (!key || !value || !ft_add_env(&list, key, value))
+			ft_clear_all_env(data, &list);
+		cur = cur->next;
+	}
+	data->dup = list;
+}
 
 char	*ft_cpy_key(char *str)
 {
@@ -73,5 +106,6 @@ int	ft_setup_env(t_data *data, char **env)
 		}
 	}
 	data->env = list;
+	ft_dup_env(data, data->env);
 	return (1);
 }
