@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:42:54 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/15 02:40:55 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/15 19:53:22 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 # define CMD		7	// "Command"
 # define ARG		8	// "Argument"
 # define SPE_SIZE	2
-# define LONG_SIZE	21
 # define HERENAME	".heredoc42.mq.tmp"
 
 extern pid_t	g_sig_pid;

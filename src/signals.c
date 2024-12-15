@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:49:01 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/14 16:59:33 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/15 19:52:26 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,4 @@ void	setup_signal_handlers(int sig)
 		signal(SIGINT, double_prompt);
 		signal(SIGQUIT, handle_sigquit);
 	}
-	// if (sig == 2) //pour heredoc pas oublier de faire crash en closant le stdin sinon le readline va toujours attendre une entree
-	// {
-
-	// }
-
 }
