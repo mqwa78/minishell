@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:46:34 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/14 16:59:08 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/17 17:58:24 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	exec_cmd(t_data *data, t_cmd *cmd, int *pip)
 		ft_clear_all(data, "Fork error\n", 1);
 	else if (g_sig_pid == 0)
 	{
-		if (!cmd->skip && cmd->tab && cmd->tab[0])
+		if (!cmd->skip && cmd->tab && cmd->tab[0] && !cmd->nocmd)
 			child_process(data, cmd, pip);
 		else
 			ft_clear_all(data, NULL, 0);
@@ -92,11 +92,6 @@ int	executer(t_data *data)
 	cur = data->cmd;
 	if (cur && !cur->skip && !cur->next && cur->tab[0] && is_built(cur->tab[0]))
 		return (launch_builtin(data, cur));
-	if (cur->skip && !cur->next)
-	{
-		data->exit = 1;
-		return (1);
-	}
 	if (pipe(data->pip) == -1)
 		ft_clear_all(data, "pipe error\n", 1);
 	exec_cmd(data, cur, data->pip);

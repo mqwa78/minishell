@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:49:39 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/14 16:10:36 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/17 18:37:50 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,21 @@ int	ft_update_oldpwd(t_data *data)
 {
 	char	cwd[1024];
 	char	*current_pwd;
+	int		max_attempts;
 
+	max_attempts = 10;
 	current_pwd = getcwd(cwd, sizeof(cwd));
 	if (current_pwd == NULL)
 	{
 		print_error("Error getting current working directory\n");
-		while (current_pwd == NULL)
+		while (current_pwd == NULL && max_attempts-- > 0)
 		{
-			chdir("..");
+			if (chdir("..") != 0)
+				break ;
 			current_pwd = getcwd(cwd, sizeof(cwd));
 		}
-		return (1);
+		if (current_pwd == NULL)
+			return (print_error("Failed to find a valid directory\n"), 1);
 	}
 	return (ft_set_env_var(&data->env, "OLDPWD", cwd));
 }

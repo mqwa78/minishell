@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:42:20 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/12 23:28:07 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/17 04:38:18 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_check_pipe(t_tok *tok)
 
 int	ft_check_spe_synthax(t_tok *tok)
 {
-	if (!tok->next)
+	if (!tok->next || (tok->type == 1 && tok->next->type == 3))
 	{
 		ft_putstr_fd("Minishell : syntax error near ", 2);
 		ft_putstr_fd("unexpected token `newline\'\n", 2);

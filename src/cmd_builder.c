@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:48:08 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/14 17:44:29 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/17 05:35:33 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	ft_fill_cmd(t_data *data, t_cmd **elem, t_tok *tok)
 	}
 	if (!ft_fill_tab(elem, tok))
 		return (0);
+	if (!ft_strlen((*elem)->tab[0]))
+		(*elem)->nocmd = 1;
 	return (1);
 }
 

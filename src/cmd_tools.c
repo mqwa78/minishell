@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:47:50 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/12 22:47:52 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/17 05:28:39 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_new_cmd(t_cmd **begin)
 	(*begin)->in = -2;
 	(*begin)->out = -2;
 	(*begin)->skip = 0;
+	(*begin)->nocmd = 0;
 	(*begin)->tab = NULL;
 	(*begin)->next = NULL;
 	return (1);

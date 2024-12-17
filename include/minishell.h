@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:42:54 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/15 19:53:22 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/17 19:14:47 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_cmd
 	int				in;
 	int				out;
 	int				skip;
+	int				nocmd;
 	char			**tab;
 	struct s_cmd	*next;
 }				t_cmd;
@@ -202,6 +203,7 @@ int		ft_print_parse(t_data *data, int flag);
 int		print_error(char *str);
 int		ft_print_export_error(char *str);
 int		ft_print_export(t_env *env);
+void	print_here(char *str, int fd, int flag);
 
 //		CLEAR FREE						//
 
@@ -224,6 +226,7 @@ void	ft_clear_spe_here(t_data *data, char *str);
 //		LIBFT							//
 
 void	ft_putchar_fd(char c, int fd);
+int		ft_alt_putchar(int c);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 int		ft_strlen(const char *s);
@@ -236,6 +239,12 @@ int		ft_isdigit(int c);
 int		ft_isoperator(int c);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
+void	*ft_memset(void *s, int c, size_t n);
 char	*ft_strchr(const char *s, int c);
 char	**ft_lst_to_array(t_data *data);
+
+//		SIGNAL							//
+
+int		init_signals(t_data *data);
+int		init_signals_alt(t_data *data);
 #endif

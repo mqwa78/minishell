@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:46:50 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/12 22:46:55 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/17 04:40:13 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 char	*display_cmd_not_found(const char *cmd)
 {
+	write(2, "minishell: ", 12);
 	write(2, cmd, ft_strlen(cmd));
-	write(2, " : command not found\n", 21);
+	write(2, ": command not found\n", 21);
 	return (NULL);
 }
 

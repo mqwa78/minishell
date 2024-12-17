@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:18:48 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/14 21:31:31 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/17 21:09:34 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,28 +97,28 @@ void	ft_expand_here(t_data *data, char **str)
 int	read_stdin(t_data *data, int fd, char *key)
 {
 	char	*buf;
+	int		stdin_backup;
 
+	stdin_backup = dup(STDIN_FILENO);
+	init_signals_alt(data);
 	while (1)
 	{
-		buf = NULL;
 		buf = readline("> ");
-		if (!buf)
+		if (!buf && g_sig_pid != 2)
 		{
-			ft_putstr_fd("warning: here-document delimited by end-of-file ", 2);
-			ft_putstr_fd("(wanted '", 2);
-			ft_putstr_fd(key, 2);
-			ft_putstr_fd("')\n", 2);
+			print_here(key, fd, 0);
 			break ;
 		}
-		if (!ft_strcmp(key, buf))
+		if ((!buf && g_sig_pid == 2) || !ft_strlen(buf) || !ft_strcmp(key, buf))
 			break ;
 		ft_expand_here(data, &buf);
-		write(fd, buf, ft_strlen(buf));
-		write(fd, "\n", 1);
+		print_here(buf, fd, 1);
 		free(buf);
 	}
 	free(buf);
 	close(fd);
+	init_signals(data);
+	dup2(stdin_backup, STDIN_FILENO);
 	return (1);
 }
 
