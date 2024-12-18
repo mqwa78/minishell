@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:42:54 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/17 19:14:47 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 02:15:54 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_data
 	t_cmd	*cmd;
 	char	*line;
 	int		pip[2];
+	int		here;
 	int		exit;
 }				t_data;
 
@@ -156,6 +157,7 @@ int		get_out(t_data *data, t_cmd **elem, t_tok *tok);
 int		get_in(t_data *data, t_cmd **elem, t_tok *tok);
 int		ft_get_files(t_data *data, t_cmd **elem, t_tok *token);
 int		open_here(t_data *data, char *key);
+void	ft_norm_here(int fd, t_data *data, int stdin_backup);
 
 //		EXECUTOR						//
 
@@ -222,6 +224,7 @@ void	ft_close_herited_fd(void);
 void	ft_clear_all_env(t_data *data, t_env **list);
 void	ft_clear_expand_here(t_data *data, char *key, char *value, int flag);
 void	ft_clear_spe_here(t_data *data, char *str);
+void	ft_clear_here(t_data *data, t_cmd **cmd);
 
 //		LIBFT							//
 

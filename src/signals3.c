@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 18:52:40 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/17 20:42:01 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 01:31:36 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	handle_sigint_parent_alt(int sig)
 void	handle_sigquit_parent_alt(int sig)
 {
 	g_sig_pid = sig;
+	return ;
 }
 
 void	handle_signals_parent_alt(int sig)

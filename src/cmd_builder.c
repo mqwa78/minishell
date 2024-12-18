@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:48:08 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/17 05:35:33 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 02:00:04 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	ft_fill_cmd(t_data *data, t_cmd **elem, t_tok *tok)
 		if ((*elem)->out >= 0)
 			close((*elem)->out);
 	}
+	if (data->here)
+		return (1);
 	if (!ft_fill_tab(elem, tok))
 		return (0);
 	if (!ft_strlen((*elem)->tab[0]))
@@ -84,6 +86,12 @@ int	ft_create_cmd(t_data *data, t_cmd **cmd, t_tok *tok)
 		ft_clear_builder(data, cmd);
 	if (!ft_fill_cmd(data, &new, tok))
 		ft_clear_builder(data, cmd);
+	if (data->here)
+	{
+		data->here = 0;
+		ft_clear_here(data, cmd);
+		return (0);
+	}
 	if (!ft_lstadd_back4(cmd, new))
 		return (0);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:43:08 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/14 21:23:08 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/17 21:39:27 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_init_data(t_data *data)
 	data->line = NULL;
 	data->pip[0] = -1;
 	data->pip[1] = -1;
+	data->here = 0;
 	data->exit = 0;
 	g_sig_pid = 0;
 }

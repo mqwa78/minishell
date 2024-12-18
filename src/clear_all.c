@@ -6,11 +6,17 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:48:39 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/15 18:09:51 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 01:59:33 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_clear_here(t_data *data, t_cmd **cmd)
+{
+	ft_clear_cmd(cmd);
+	ft_clear_tok(&data->tok);
+}
 
 void	ft_close_herited_fd(void)
 {

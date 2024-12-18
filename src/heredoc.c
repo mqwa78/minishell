@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:18:48 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/17 21:09:34 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 02:13:30 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,13 @@ int	read_stdin(t_data *data, int fd, char *key)
 	char	*buf;
 	int		stdin_backup;
 
+	g_sig_pid = 0;
 	stdin_backup = dup(STDIN_FILENO);
 	init_signals_alt(data);
 	while (1)
 	{
 		buf = readline("> ");
-		if (!buf && g_sig_pid != 2)
+		if ((!buf && g_sig_pid != SIGINT))
 		{
 			print_here(key, fd, 0);
 			break ;
@@ -115,10 +116,10 @@ int	read_stdin(t_data *data, int fd, char *key)
 		print_here(buf, fd, 1);
 		free(buf);
 	}
+	if (g_sig_pid == SIGINT && !buf)
+		data->here = 1;
 	free(buf);
-	close(fd);
-	init_signals(data);
-	dup2(stdin_backup, STDIN_FILENO);
+	ft_norm_here(fd, data, stdin_backup);
 	return (1);
 }
 
