@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:42:54 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/18 02:15:54 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 13:51:53 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int		get_in(t_data *data, t_cmd **elem, t_tok *tok);
 int		ft_get_files(t_data *data, t_cmd **elem, t_tok *token);
 int		open_here(t_data *data, char *key);
 void	ft_norm_here(int fd, t_data *data, int stdin_backup);
+void	ft_sigint_here(t_data *data);
 
 //		EXECUTOR						//
 

@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:49:01 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/18 02:19:27 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 12:35:17 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	double_prompt(int sig)
 {
 	(void)sig;
-	g_sig_pid = 130;
 	rl_on_new_line();
 	printf("\n");
 	rl_replace_line("", 0);
+	g_sig_pid = 130;
 }
 
 void	handle_sigint(int sig)
@@ -28,6 +28,7 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_sig_pid = 130;
 }
 
 void	handle_sigquit(int sig)

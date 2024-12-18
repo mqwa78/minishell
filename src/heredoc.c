@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:18:48 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/18 02:13:30 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 13:51:33 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	read_stdin(t_data *data, int fd, char *key)
 		free(buf);
 	}
 	if (g_sig_pid == SIGINT && !buf)
-		data->here = 1;
+		ft_sigint_here(data);
 	free(buf);
 	ft_norm_here(fd, data, stdin_backup);
 	return (1);

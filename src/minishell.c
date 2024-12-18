@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:43:08 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/17 21:39:27 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 12:52:08 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int	minishell(char **env)
 	{
 		setup_signal_handlers(0);
 		data.line = readline("minishell> ");
+		if (g_sig_pid == 130 || g_sig_pid == 131)
+		{
+			data.exit = g_sig_pid;
+			g_sig_pid = 0;
+		}
 		if (!data.line)
 			ft_clear_all_env(&data, &data.dup);
 		if (!ft_parse(&data))

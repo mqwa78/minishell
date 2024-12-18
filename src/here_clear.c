@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 21:30:50 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/18 02:15:46 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 13:51:11 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ void	ft_clear_expand_here(t_data *data, char *key, char *value, int flag)
 		ft_clear_tok(&data->tok);
 		ft_clear_all(data, "Malloc error\n", 1);
 	}
+}
+
+void	ft_sigint_here(t_data *data)
+{
+	data->here = 1;
+	data->exit = 130;
 }
 
 void	ft_norm_here(int fd, t_data *data, int stdin_backup)
