@@ -42,6 +42,7 @@ SRC	+=	./src/ft_strdup.c
 SRC	+=	./src/ft_strlen.c
 SRC	+=	./src/ft_strncmp.c
 SRC	+=	./src/here_clear.c
+SRC	+=	./src/here_quote.c
 SRC	+=	./src/heredoc.c
 SRC	+=	./src/main.c
 SRC	+=	./src/minishell.c

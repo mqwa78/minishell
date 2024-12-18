@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:42:54 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/18 13:51:53 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 22:00:33 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,12 +152,10 @@ int		ft_lstadd_back4(t_cmd **lst, t_cmd *new);
 int		ft_fill_cmd(t_data *data, t_cmd **elem, t_tok *tok);
 int		ft_fill_tab(t_cmd **elem, t_tok *tok);
 int		ft_count_tokens(t_tok *tok);
-int		open_file(t_data *data, char *filename, int type);
+int		open_file(t_data *data, t_tok *tok, int type);
 int		get_out(t_data *data, t_cmd **elem, t_tok *tok);
 int		get_in(t_data *data, t_cmd **elem, t_tok *tok);
 int		ft_get_files(t_data *data, t_cmd **elem, t_tok *token);
-int		open_here(t_data *data, char *key);
-void	ft_norm_here(int fd, t_data *data, int stdin_backup);
 void	ft_sigint_here(t_data *data);
 
 //		EXECUTOR						//
@@ -207,6 +205,13 @@ int		print_error(char *str);
 int		ft_print_export_error(char *str);
 int		ft_print_export(t_env *env);
 void	print_here(char *str, int fd, int flag);
+
+//		HEREDOC							//
+
+int		open_here(t_data *data, t_tok *tok);
+int		ft_here_quote(char *str);
+void	ft_clear_quote_here(t_data *data, t_tok **tok);
+int		ft_norm_here(int fd, t_data *data, int stdin_backup);
 
 //		CLEAR FREE						//
 

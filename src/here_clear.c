@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 21:30:50 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/18 13:51:11 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 22:09:13 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ void	ft_sigint_here(t_data *data)
 	data->exit = 130;
 }
 
-void	ft_norm_here(int fd, t_data *data, int stdin_backup)
+int	ft_norm_here(int fd, t_data *data, int stdin_backup)
 {
 	close(fd);
 	init_signals(data);
 	dup2(stdin_backup, STDIN_FILENO);
+	close(stdin_backup);
+	return (1);
 }
 
 void	ft_clear_spe_here(t_data *data, char *str)

@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:45:32 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/14 03:55:16 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 21:23:57 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	expander(t_data *data)
 	exp = NULL;
 	ft_check_ambiguous(data, cur);
 	while (cur)
-	{	
+	{
 		if (cur->type > 5)
 		{
 			ft_create_lst_exp(data, &exp, cur->token);
@@ -132,7 +132,6 @@ void	expander(t_data *data)
 		else if (cur->type == HEREDOC)
 		{
 			cur = cur->next;
-			ft_clear_quote(data, &cur);
 		}
 		cur = cur->next;
 	}

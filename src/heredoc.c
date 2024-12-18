@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:18:48 by mqwa              #+#    #+#             */
-/*   Updated: 2024/12/18 13:51:33 by mqwa             ###   ########.fr       */
+/*   Updated: 2024/12/18 22:01:21 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_expand_here(t_data *data, char **str)
 	}
 }
 
-int	read_stdin(t_data *data, int fd, char *key)
+int	read_stdin(t_data *data, int fd, char *key, int quote)
 {
 	char	*buf;
 	int		stdin_backup;
@@ -112,25 +112,30 @@ int	read_stdin(t_data *data, int fd, char *key)
 		}
 		if ((!buf && g_sig_pid == 2) || !ft_strlen(buf) || !ft_strcmp(key, buf))
 			break ;
-		ft_expand_here(data, &buf);
+		if (!quote)
+			ft_expand_here(data, &buf);
 		print_here(buf, fd, 1);
 		free(buf);
 	}
 	if (g_sig_pid == SIGINT && !buf)
 		ft_sigint_here(data);
 	free(buf);
-	ft_norm_here(fd, data, stdin_backup);
-	return (1);
+	return (ft_norm_here(fd, data, stdin_backup));
 }
 
-int	open_here(t_data *data, char *key)
+int	open_here(t_data *data, t_tok *tok)
 {
-	int	fd;
+	int		fd;
+	int		quote;
 
+	quote = 0;
+	if (ft_here_quote(tok->token))
+		quote = 1;
+	ft_clear_quote_here(data, &tok);
 	fd = open(HERENAME, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (-1);
-	if (!read_stdin(data, fd, key))
+	if (!read_stdin(data, fd, tok->token, quote))
 	{
 		unlink(HERENAME);
 		return (-1);
